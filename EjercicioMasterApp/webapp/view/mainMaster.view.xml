@@ -1,0 +1,18 @@
+<mvc:View controllerName="EjercicioMasterApp.EjercicioMasterApp.controller.mainMaster"  displayBlock="true"
+xmlns:mvc="sap.ui.core.mvc" 
+xmlns="sap.m">
+
+<Page title="Master Split App" >
+    <List
+        items="{modeloProductos>/values}"
+        mode="SingleSelectMaster"
+        selectionChange="onSelectionChange">
+        <items>
+            <StandardListItem title="{modeloProductos>nombre_producto}" 
+                type="Active"
+                press="onSelectionChange"/>
+        </items>
+    </List>
+</Page>
+
+</mvc:View>

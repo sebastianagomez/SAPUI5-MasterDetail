@@ -1,0 +1,50 @@
+_schema-version: "3.2"
+ID: EjercicioMasterApp
+version: 0.0.1
+modules:
+- name: ejerciciomasterapp-approuter
+  type: approuter.nodejs
+  path: ejerciciomasterapp-approuter
+  requires:
+  - name: EjercicioMasterApp_html_repo_runtime
+  parameters:
+    disk-quota: 256M
+    memory: 256M
+- name: EjercicioMasterApp_ui_deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: EjercicioMasterApp_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - EjercicioMasterApp-content.zip
+      name: EjercicioMasterApp
+      target-path: resources/
+- name: EjercicioMasterApp
+  type: html5
+  path: EjercicioMasterApp
+  build-parameters:
+    builder: custom
+    commands:
+    - npm run build
+    supported-platforms: []
+resources:
+- name: EjercicioMasterApp_html_repo_runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
+- name: EjercicioMasterApp_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm install
